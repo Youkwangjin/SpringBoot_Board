@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>게시판 상세</title>
+  <style>
+    table, tr, td, th {
+      border: 1px solid black;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 10px;
+    }
+  </style>
+  <script th:inline="javascript">
+    window.onload = function () {
+      document.querySelector("#listReq").onclick=backFunc;
+      document.querySelector("#updateReq").onclick=updateFunc;
+      document.querySelector("#deleteReq").onclick=deleteFunc;
+    }
+
+    function backFunc() {
+      location.href = "/board/list";
+    }
+
+    function updateFunc() {
+      const boardId = [[${board.id}]];
+      location.href = "/board/update/" + boardId;
+    }
+
+    function deleteFunc() {
+      const boardId = [[${board.id}]];
+      if (confirm("정말 삭제하시겠습니까?")) {
+        location.href = "/board/delete/" + boardId;
+      }
+    }
+  </script>
+</head>
+<body>
+<table>
+  <tr>
+    <th>게시글 번호</th>
+    <th>게시글 제목</th>
+    <th>게시글 작성자</th>
+    <th>게시글 내용</th>
+    <th>게시글 작성시간</th>
+    <th>게시글 조회수</th>
+  </tr>
+  <tr th:each="board: ${board}">
+    <td th:text="${board.id}"></td>
+    <td th:text="${board.boardTitle}"></td>
+    <td th:text="${board.boardWriter}"></td>
+    <td th:text="${board.boardContents}"></td>
+    <td th:text="${board.boardCreated}"></td>
+    <td th:text="${board.boardHits}"></td>
+  </tr>
+</table>
+<input type="button" id="listReq" value="목록">
+<input type="button" id="updateReq" value="수정">
+<input type="button" id="deleteReq" value="삭제">
+</body>
+</html>
