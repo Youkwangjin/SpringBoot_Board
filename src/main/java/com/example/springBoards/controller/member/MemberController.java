@@ -20,7 +20,7 @@ public class MemberController {
         return "redirect:/login";
     }
 
-    @PostMapping("/member/login")
+    @PostMapping("/api/member/mypage")
     public String memberLogin(@ModelAttribute MemberDTO memberDTO, HttpSession session) {
         boolean loginResult = memberService.memberLogin(memberDTO);
         if (loginResult) {

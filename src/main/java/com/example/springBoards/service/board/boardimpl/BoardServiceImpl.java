@@ -54,8 +54,13 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public List<BoardDTO> boardList(BoardDTO boardDTO) {
-        return boardRepository.boardList(boardDTO);
+    public int getTotalBoardCount() {
+        return boardRepository.getTotalBoardCount();
+    }
+
+    @Override
+    public List<BoardDTO> boardList(int pageNum, int pageSize) {
+        return boardRepository.boardList(pageNum, pageSize);
     }
 
     @Override

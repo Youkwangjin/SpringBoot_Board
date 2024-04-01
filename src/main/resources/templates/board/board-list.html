@@ -2,36 +2,48 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
     <title>게시판 목록</title>
-    <style>
-        table, tr, td, th {
-            border: 1px solid black;
-            border-collapse: collapse;
-        }
-        th, td {
-            padding: 10px;
-        }
-    </style>
 </head>
 <body>
-<a href="/board/write">게시글 작성하기</a><br/>
-<table>
-    <tr>
-        <th>게시글 번호</th>
-        <th>게시글 제목</th>
-        <th>게시글 작성자</th>
-        <th>게시글 작성일</th>
-        <th>게시글 조회수</th>
-    </tr>
-    <tr th:each="board: ${boardList}">
-        <td th:text="${board.id}"></td>
-        <td>
-            <a th:text="${board.boardTitle}" th:href="@{|/board/detail/${board.id}|}"></a>
-        </td>
-        <td th:text="${board.boardWriter}"></td>
-        <td th:text="${board.boardCreated}"></td>
-        <td th:text="${board.boardHits}"></td>
-    </tr>
-</table>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h3 style="text-align: center;">게시판</h3>
+            <a href="/board/write" class="btn btn-primary">게시글 작성하기</a><br/><br/>
+            <table class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th>게시글 번호</th>
+                    <th>게시글 제목</th>
+                    <th>게시글 작성자</th>
+                    <th>게시글 작성일</th>
+                    <th>게시글 조회수</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="board : ${boardList}">
+                    <td th:text="${board.id}"></td>
+                    <td>
+                        <a th:text="${board.boardTitle}" th:href="@{|/board/detail/${board.id}|}"></a>
+                    </td>
+                    <td th:text="${board.boardWriter}"></td>
+                    <td th:text="${board.boardCreated}"></td>
+                    <td th:text="${board.boardHits}"></td>
+                </tr>
+                </tbody>
+            </table>
+            <!-- 페이지네이션 부분 시작 -->
+            <nav aria-label="Page navigation" class="text-center">
+                <ul class="pagination">
+                    <li th:each="i : ${#numbers.sequence(1, totalPages)}" th:class="${i == pageNum ? 'active' : ''}">
+                        <a th:href="@{/board/list(pageNum=${i})}" th:text="${i}"></a>
+                    </li>
+                </ul>
+            </nav>
+            <!-- 페이지네이션 부분 끝 -->
+        </div>
+    </div>
+</div>
 </body>
 </html>

@@ -2,30 +2,43 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Board">
+    <!-- 게시글 저장 쿼리 -->
     <insert id="save" parameterType="board" useGeneratedKeys="true" keyProperty="id">
         insert into board (boardTitle, boardWriter, boardPassword, boardContents, fileAttached, memberId)
         values (#{boardTitle}, #{boardWriter}, #{boardPassword}, #{boardContents}, #{fileAttached}, #{memberId})
     </insert>
-    <select id="boardList" resultType="board">
+    <!-- 게시글 목록 조회 쿼리 (페이징 처리 포함) -->
+    <select id="boardList" parameterType="map" resultType="board">
         select id, boardTitle, boardWriter, boardHits, date_format(boardCreated, "%Y-%m-%d") as boardCreated
-        from board order by id desc
+        from board
+        order by id desc limit #{pageSize} offset #{offset}
     </select>
+    <!-- 전체 게시글 수 조회 -->
+    <select id="getTotalBoardCount" resultType="int">
+        SELECT COUNT(*) FROM board
+    </select>
+    <!-- 게시글 조회수 증가 쿼리 -->
     <update id="updateHits" parameterType="Long">
         update board set boardHits=boardHits+1 where id = #{id}
     </update>
+    <!-- 게시글 상세 조회 쿼리 -->
     <select id="detail" parameterType="Long" resultType="board">
         select * from board where id = #{id}
     </select>
+    <!-- 게시글 업데이트 쿼리 -->
     <update id="update" parameterType="board">
         update board set boardTitle = #{boardTitle}, boardContents = #{boardContents} where id = #{id}
     </update>
+    <!-- 게시글 삭제 쿼리 -->
     <delete id="delete" parameterType="Long">
         delete from board where id = #{id}
     </delete>
+    <!-- 게시글 첨부 파일 저장 쿼리 -->
     <insert id="boardFile" parameterType="boardFile">
         insert into board_file (originalFileName, storedFileName, boardId)
         values (#{originalFileName}, #{storedFileName}, #{boardId})
     </insert>
+    <!-- 게시글 첨부 파일 조회 쿼리 -->
     <select id="findFile" parameterType="Long" resultType="boardFile">
         select * from board_file where boardId = #{boardId}
     </select>

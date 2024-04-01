@@ -6,7 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 @RequiredArgsConstructor
@@ -19,8 +21,12 @@ public class BoardRepository {
         return boardDTO;
     }
 
-    public List<BoardDTO> boardList(BoardDTO boardDTO) {
-        return sqlSessionTemplate.selectList("Board.boardList", boardDTO);
+    public List<BoardDTO> boardList(int pageNum, int pageSize) {
+        int offset = (pageNum - 1) * pageSize;
+        Map<String, Object> params = new HashMap<>();
+        params.put("pageSize", pageSize);
+        params.put("offset", offset);
+        return sqlSessionTemplate.selectList("Board.boardList", params);
     }
 
     public void updateHits(Long id) {
@@ -45,5 +51,9 @@ public class BoardRepository {
 
     public List<BoardFileDTO> findFile(Long id) {
         return sqlSessionTemplate.selectList("Board.findFile", id);
+    }
+
+    public int getTotalBoardCount() {
+        return sqlSessionTemplate.selectOne("Board.getTotalBoardCount");
     }
 }

@@ -3,17 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <title>게시판 작성</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 </head>
-<body>
+<body style="margin: 20px;">
+<h3 style="text-align: center;">글 작성하기</h3>
 <form action="/board/save" method="post" enctype="multipart/form-data">
-    <label>
-        제목 : <input type="text" name="boardTitle"><br/>
-        작성자 : <input type="text" name="boardWriter"><br/>
-        비밀번호 : <input type="password" name="boardPassword"><br/>
-        내용 : <textarea name="boardContents" cols="30" rows="10"></textarea><br/>
-        파일 : <input type="file" name="boardFile" multiple><br/>
-        <input type="submit" value="작성">
-    </label>
+    <table style="width: 95%;" class="table">
+        <tr>
+            <td>작성자</td>
+            <td>
+                <label>
+                    <input type="text" name="boardWriter"/>
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td>비밀번호</td>
+            <td>
+                <label>
+                    <input type="text" name="boardPassword"/>
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td>글제목</td>
+            <td>
+                <label>
+                    <input type="text" name="boardTitle"/>
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td>글내용</td>
+            <td>
+                <label>
+                    <textarea rows="5" style="width: 99%;" name="boardContents"></textarea>
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td>파일 첨부하기</td>
+            <td>
+                <label>
+                    <input type="file" name="boardFile" multiple/>
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align: center;">
+                <input type="submit" value="작성하기" class="btn btn-primary"/>
+            </td>
+        </tr>
+    </table>
 </form>
 </body>
 </html>
