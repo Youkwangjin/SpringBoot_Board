@@ -22,4 +22,11 @@
     <delete id="delete" parameterType="Long">
         delete from board where id = #{id}
     </delete>
+    <insert id="boardFile" parameterType="boardFile">
+        insert into board_file (originalFileName, storedFileName, boardId)
+        values (#{originalFileName}, #{storedFileName}, #{boardId})
+    </insert>
+    <select id="findFile" parameterType="Long" resultType="boardFile">
+        select * from board_file where boardId = #{boardId}
+    </select>
 </mapper>

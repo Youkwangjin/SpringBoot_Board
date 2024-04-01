@@ -2,6 +2,7 @@ package com.example.springBoards.controller.board;
 
 
 import com.example.springBoards.dto.board.BoardDTO;
+import com.example.springBoards.dto.board.BoardFileDTO;
 import com.example.springBoards.service.board.BoardService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -36,11 +38,16 @@ public class BoardController {
     public String boardDetail(@PathVariable("id") Long id, Model model) {
         /*
             1. 조회수 처리
-            2 상세 내용 가져오기
+            2. 상세 내용 가져오기
+            3. 파일 첨부 확인 조건문 추가
          */
         boardService.updateHits(id);
         BoardDTO boardDTO = boardService.boardFindById(id);
         model.addAttribute("board", boardDTO);
+        if (boardDTO.getFileAttached() == 1) {
+            List<BoardFileDTO> boardFileDTOList = boardService.findFile(id);
+            model.addAttribute("boardFileList", boardFileDTOList);
+        }
         return "board/board-detail";
     }
 
@@ -53,7 +60,7 @@ public class BoardController {
 
 
     @PostMapping("/board/save")
-    public String boardSave(@ModelAttribute BoardDTO boardDTO, HttpSession session) {
+    public String boardSave(@ModelAttribute BoardDTO boardDTO, HttpSession session) throws IOException {
         /*
             1. 세션에서 사용자 ID(Long 타입)를 안전하게 가져오기
          */

@@ -1,6 +1,7 @@
 package com.example.springBoards.repository.board;
 
 import com.example.springBoards.dto.board.BoardDTO;
+import com.example.springBoards.dto.board.BoardFileDTO;
 import lombok.RequiredArgsConstructor;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -13,8 +14,9 @@ public class BoardRepository {
 
     private final SqlSessionTemplate sqlSessionTemplate;
 
-    public void boardSave(BoardDTO boardDTO) {
+    public BoardDTO boardSave(BoardDTO boardDTO) {
         sqlSessionTemplate.insert("Board.save", boardDTO);
+        return boardDTO;
     }
 
     public List<BoardDTO> boardList(BoardDTO boardDTO) {
@@ -35,5 +37,13 @@ public class BoardRepository {
 
     public void boardDelete(Long id) {
         sqlSessionTemplate.delete("Board.delete", id);
+    }
+
+    public void saveFile(BoardFileDTO boardFileDTO) {
+        sqlSessionTemplate.insert("Board.boardFile", boardFileDTO);
+    }
+
+    public List<BoardFileDTO> findFile(Long id) {
+        return sqlSessionTemplate.selectList("Board.findFile", id);
     }
 }

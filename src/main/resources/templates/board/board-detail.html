@@ -39,20 +39,34 @@
 <body>
 <table>
   <tr>
-    <th>게시글 번호</th>
-    <th>게시글 제목</th>
-    <th>게시글 작성자</th>
-    <th>게시글 내용</th>
-    <th>게시글 작성시간</th>
-    <th>게시글 조회수</th>
-  </tr>
-  <tr th:each="board: ${board}">
+    <th>id</th>
     <td th:text="${board.id}"></td>
+  </tr>
+  <tr>
+    <th>title</th>
     <td th:text="${board.boardTitle}"></td>
+  </tr>
+  <tr>
+    <th>writer</th>
     <td th:text="${board.boardWriter}"></td>
-    <td th:text="${board.boardContents}"></td>
+  </tr>
+  <tr>
+    <th>date</th>
     <td th:text="${board.boardCreated}"></td>
+  </tr>
+  <tr>
+    <th>hits</th>
     <td th:text="${board.boardHits}"></td>
+  </tr>
+  <tr>
+    <th>contents</th>
+    <td th:text="${board.boardContents}"></td>
+  </tr>
+  <tr th:if="${board.fileAttached == 1}">
+    <th>image</th>
+    <td th:each="boardFile: ${boardFileList}">
+      <img th:src="@{|/upload/${boardFile.storedFileName}|}" alt="" width="200" height="200">
+    </td>
   </tr>
 </table>
 <input type="button" id="listReq" value="목록">
